@@ -9,13 +9,13 @@
 - Customer melakukan orderan.
 - Oleh sistem secara automatis di arahkan ke pemilihan metode pembayaran.
 - Customer melakuan pembayaran.
-- Oleh sistem orderan tersebut di alihkan ke aplikasi merchant. (dalam artian memberikan notifikasi pada aplikasi merchant)
-- Merchant berhak menolak. Dalam artian transaksi tersebut di batalkan dan seluruh uang pelanggan di kembalikan(automasi by sistem)
+- Oleh sistem orderan tersebut di alihkan ke aplikasi merchant. (dalam artian memberikan notifikasi kepada aplikasi merchant)
+- Merchant berhak menolak. Dalam artian transaksi tersebut di batalkan dan seluruh uang pelanggan di kembalikan(automasi by sistem berdasarkan pilihan metode pembayaran)
 - Merchant menerima √. Semua transaksi berhasil, oleh system di alihkan ke layanan kurir. (Kurir disini bisa di buat sendiri, atau meminta kerjasama dengan goj*k/gr*b dalam bentuk Kerjasama B2B, API, etc.
 
 ## Teknology stack.
 
-> Teknologi stack dirancang untuk menetukan standar sebagai acuan untuk pengambangan aplikasi dengan harapan agar proses pengembangan aplikasi sesuai dengan harapan. Untuk metode pengembangan aplikasi sendiri dapat memilih metode metode yang Ada seperti [SDLC](https://medium.com/@purwanto.dev/metodologi-system-development-life-cycle-sdlc-2f0349df1364), [Agile](https://www.agilecampus.org/apa-itu-agile). Umunya perusahaan besar menggunakan metode SDLC (Ini tergantung kesepakatan pihak pengembang)
+> Teknologi stack dirancang untuk menetukan standar sebagai acuan untuk pengambangan aplikasi dengan harapan agar proses pengembangan aplikasi selesai dengan baik. Pemilihan teknologi sangatlah berpengaruh untuk pengembangan dan pemeliharaan sistem jangka panjang.
 
 ### Infrastruktur.
 
@@ -28,9 +28,9 @@
 
 - Go (Google Language) Bahasa pemrograman utama yang di pakai untuk menulis API level bisnis.
 - PostgresQL (Database) database untuk penyimpanan utama.
-- Redis (Caching) untuk penyimpanan sementara, membantu mengurangi kinerja database server.
-- Cron (Shedulling) Untuk penjadwalan, bisa dipakai untuk mengecek transaksi atau pembayaran yang pending, atau lainya yang berhungan dengan aplikasi.
-- Docker (Container) Teknologi untuk membangun aplikasi dalam bentuk container untuk kebutuhan scale up. didukung penuh oleh kukbernetes atau docker swarm.
+- Redis (Cache) untuk penyimpanan sementara, membantu mengurangi kinerja database server.
+- Cron (Shedulle) Untuk penjadwalan, bisa dipakai untuk mengecek transaksi atau pembayaran yang pending, atau lainya yang berhungan dengan aplikasi.
+- Docker (Container) Teknologi untuk membangun aplikasi dalam bentuk container untuk kebutuhan scaling. didukung penuh oleh kukbernetes atau docker swarm.
 - RabbitMQ / NSQ (Antrian) Untuk menangani orderan/transaksi dalam jumlah banyak untuk menghindari kegagalan transaksi yang di buat oleh system komputer yang berakibat fatal dan berimbas ke bisnis.
 - gRPC, RESTFull, GraphQL.(Protokol komunikasi) bisa menggunakan salah satu atau semuanya. tergantung kebutuhan sistem.
 - NGINX (Web Services).
@@ -52,7 +52,7 @@
 
 ### Api Consumer (Front End Apps)
 
-> Api konsumer adalah pengguna API seperti Web App, Mobile App, dan sejenisnya yang berhubungan dengan Sistem Delivery Order yang di bangun, ini lebih tepat untuk Aplikasi sisi Front End.
+> Api konsumer adalah pengguna API seperti Web App, Mobile App, dan sejenisnya yang berhubungan dengan Sistem Delivery Order yang di bangun.
 
 ### Load Balancer & Web Service (Public)
 
@@ -64,15 +64,10 @@
 
 ### Instance
 
-> Merupakan komputer virtual atau container dan layanan layanan didalam instance tersebut dibuat atas dasar protokol komunikasi seperti RESTFul, GraphQL, atau gRPC, ssh, dll. Layanan-layanan tersebut saling berkomunikasi dan berfungsi berdasarkan kebutuhan masing-masing, seperti Layanan pembayaran, Layanan databases, Layanan API Utama. Komunikasi antara layanan layanan tergantung dari arsitektur sistem itu sendiri dan di dalamnya mengandung nilai keamanan, baik itu data, IP Address, dan informasi lainya yang bersifat `critical`. Setiap `Instance` dibangun di atas teknologi container, hal ini dapat menggunakan `Docker`. dan `Kubernetes` untuk mengelola container.
-
-> Semua tergantung kebutuhan layanan, sebaiknya untuk instance disini dapat menggunakan jaringan private.
-
 - Layanan Database.
 
   - `Redis` untuk penyimpanan sementara.
   - `PostgresQL` untuk penyimpanan utama.
-    > Cukup membuka port dan mengatur Firewall untuk mengijinkan IP Address tertentu.
 
 - Layanan pembayaran.
   - `Go` Untuk bahasa pemerograman utama.
@@ -100,7 +95,7 @@
   - Malakukan validasi data yang di kirim melalui API.
   - Mengikuti paduan dan standar keamanan [OWASP](https://www.owasp.org/index.php/OWASP_API_Security_Project).
 
-# 3. Cara pembuatan API sederhana.
+# 3. RESTFul API berdasarkan dokumentasi apiary
 
 > Untuk pembuatan API ini saya akan mengikuti dokumentasi dari [Apiary](https://testbinar.docs.apiary.io/).
 
@@ -115,4 +110,3 @@
 
 - Kekurangan-kekurangan pada sisi dokumentasi.
   - `Parameter` tidak di deskripsikan secara lengkap mengenai informasi `type data` dari `variabel`.
-  - Kurang penjelasan mengenesai penggunaan API, Dokumentasi yang baik harus menjelaskan secara singkat dan dan jelas untuk penggunaan API itu sendiri.
